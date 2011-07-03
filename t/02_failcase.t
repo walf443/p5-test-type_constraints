@@ -1,0 +1,24 @@
+use strict;
+use warnings;
+use Test::More;
+use Test::TypeConstraints;
+use Test::Builder::Tester;
+
+test_out("not ok 1 - fail test case");
+my $expected_err = <<'END_OF_ERR';
+#   Failed test 'fail test case'
+#   at t/02_failcase.t line 20.
+# Invalid value for 'got': Validation failed for 'ArrayRef[Int]' with value $VAR1 = [
+#           1,
+#           2,
+#           'abc'
+#         ];
+END_OF_ERR
+chomp $expected_err;
+test_err($expected_err);
+
+type_is_a_ok([1, 2, "abc"], "ArrayRef[Int]", "fail test case");
+
+test_test("testing");
+
+done_testing;

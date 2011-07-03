@@ -1,16 +1,22 @@
 NAME
-    Test::TypeConstraints -
+    Test::TypeConstraints - testing value with Data::Validator like
+    validation.
 
 SYNOPSIS
       use Test::TypeConstraints;
 
+      Test::TypeConstraints::type_is_a_ok($got, "ArrayRef[Int]", "type should be ArrayRef[Int]");
+
 DESCRIPTION
-    Test::TypeConstraints is
+    Test::TypeConstraints is for testing type check with Data::Validator
+    like validation.
 
 AUTHOR
     Keiji Yoshimi <walf443 at gmail dot com>
 
 SEE ALSO
+    +<Data::Validator>, +<Mouse::Util::TypeConstraints>
+
 LICENSE
     This library is free software; you can redistribute it and/or modify it
     under the same terms as Perl itself.
