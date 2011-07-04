@@ -3,16 +3,16 @@ NAME
     (Moose|Mouse)::Meta::TypeConstraint
 
 SYNOPSIS
-      use Test::TypeConstraints qw(type_is_a_ok);
+      use Test::TypeConstraints qw(type_isa);
 
-      type_is_a_ok($got, "ArrayRef[Int]", "type should be ArrayRef[Int]");
+      type_isa($got, "ArrayRef[Int]", "type should be ArrayRef[Int]");
 
 DESCRIPTION
     Test::TypeConstraints is for testing whether some value is valid as
     (Moose|Mouse)::Meta::TypeConstraint.
 
 METHOD
-  type_is_a_ok($got, $typename_or_type, $test_name)
+  type_isa($got, $typename_or_type, $test_name)
         $got is value for checking.
         $typename_or_type is a Classname or Mouse::Meta::TypeConstraint name or "Mouse::Meta::TypeConstraint" object or "Moose::Meta::TypeConstraint" object.
 

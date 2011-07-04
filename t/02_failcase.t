@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 use Test::More;
-use Test::TypeConstraints;
+use Test::TypeConstraints qw(type_isa);
 use Test::Builder::Tester;
 
 test_out("not ok 1 - fail test case");
@@ -17,7 +17,7 @@ END_OF_ERR
 chomp $expected_err;
 test_err($expected_err);
 
-type_is_a_ok([1, 2, "abc"], "ArrayRef[Int]", "fail test case");
+type_isa([1, 2, "abc"], "ArrayRef[Int]", "fail test case");
 
 test_test("testing");
 

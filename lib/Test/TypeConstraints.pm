@@ -10,9 +10,9 @@ use Mouse::Util::TypeConstraints ();
 use Scalar::Util ();
 use Data::Dumper;
 
-our @EXPORT = qw/ type_is_a_ok /;
+our @EXPORT = qw/ type_isa /;
 
-sub type_is_a_ok {
+sub type_isa {
     my ($got, $type, $test_name) = @_;
 
     my $tc;
@@ -38,9 +38,9 @@ Test::TypeConstraints - testing whether some value is valid as (Moose|Mouse)::Me
 
 =head1 SYNOPSIS
 
-  use Test::TypeConstraints qw(type_is_a_ok);
+  use Test::TypeConstraints qw(type_isa);
 
-  type_is_a_ok($got, "ArrayRef[Int]", "type should be ArrayRef[Int]");
+  type_isa($got, "ArrayRef[Int]", "type should be ArrayRef[Int]");
 
 =head1 DESCRIPTION
 
@@ -48,7 +48,7 @@ Test::TypeConstraints is for testing whether some value is valid as (Moose|Mouse
 
 =head1 METHOD
 
-=head2 type_is_a_ok($got, $typename_or_type, $test_name)
+=head2 type_isa($got, $typename_or_type, $test_name)
 
     $got is value for checking.
     $typename_or_type is a Classname or Mouse::Meta::TypeConstraint name or "Mouse::Meta::TypeConstraint" object or "Moose::Meta::TypeConstraint" object.
