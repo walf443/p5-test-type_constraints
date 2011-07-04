@@ -14,7 +14,11 @@ DESCRIPTION
 METHOD
   type_isa($got, $typename_or_type, $test_name)
         $got is value for checking.
-        $typename_or_type is a Classname or Mouse::Meta::TypeConstraint name or "Mouse::Meta::TypeConstraint" object or "Moose::Meta::TypeConstraint" object.
+        $typename_or_type is a Classname or Mouse::Meta::TypeConstraint name or "Mouse::Meta::TypeConstraint" object or "Moose::Meta::TypeConstraint::Class" object.
+
+  type_does($got, $rolename_or_role, $test_name)
+        $got is value for checking.
+        $typename_or_type is a Classname or Mouse::Meta::TypeConstraint name or "Mouse::Meta::TypeConstraint" object or "Moose::Meta::TypeConstraint::Role" object.
 
 AUTHOR
     Keiji Yoshimi <walf443 at gmail dot com>
