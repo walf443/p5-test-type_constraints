@@ -22,7 +22,7 @@ sub type_is_a_ok {
         },
     )->with('NoThrow');
     my $args = $rule->validate(got => $got);
-    local $Test::Builder::Level += 2;
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
     my $ret = ok(! $rule->has_errors, $test_name || "should not have type error");
     if ( ! $ret ) {
         my $dava_validator_msg = join "\n", map { $_->{message} } @{ $rule->clear_errors };
