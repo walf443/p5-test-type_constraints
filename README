@@ -1,21 +1,26 @@
 NAME
-    Test::TypeConstraints - testing value with Data::Validator like
-    validation.
+    Test::TypeConstraints - testing whether some value is valid as
+    (Moose|Mouse)::Meta::TypeConstraint
 
 SYNOPSIS
-      use Test::TypeConstraints;
+      use Test::TypeConstraints qw(type_is_a_ok);
 
-      Test::TypeConstraints::type_is_a_ok($got, "ArrayRef[Int]", "type should be ArrayRef[Int]");
+      type_is_a_ok($got, "ArrayRef[Int]", "type should be ArrayRef[Int]");
 
 DESCRIPTION
-    Test::TypeConstraints is for testing type check with Data::Validator
-    like validation.
+    Test::TypeConstraints is for testing whether some value is valid as
+    (Moose|Mouse)::Meta::TypeConstraint.
+
+METHOD
+  type_is_a_ok($got, $typename_or_type, $test_name)
+        $got is value for checking.
+        $typename_or_type is a Classname or Mouse::Meta::TypeConstraint name or "Mouse::Meta::TypeConstraint" object or "Moose::Meta::TypeConstraint" object.
 
 AUTHOR
     Keiji Yoshimi <walf443 at gmail dot com>
 
 SEE ALSO
-    +<Data::Validator>, +<Mouse::Util::TypeConstraints>
+    +<Mouse::Util::TypeConstraints>, +<Moose::Util::TypeConstraints>
 
 LICENSE
     This library is free software; you can redistribute it and/or modify it

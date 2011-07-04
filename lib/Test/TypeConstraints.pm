@@ -34,17 +34,24 @@ __END__
 
 =head1 NAME
 
-Test::TypeConstraints - testing value with Data::Validator like validation.
+Test::TypeConstraints - testing whether some value is valid as (Moose|Mouse)::Meta::TypeConstraint
 
 =head1 SYNOPSIS
 
-  use Test::TypeConstraints;
+  use Test::TypeConstraints qw(type_is_a_ok);
 
-  Test::TypeConstraints::type_is_a_ok($got, "ArrayRef[Int]", "type should be ArrayRef[Int]");
+  type_is_a_ok($got, "ArrayRef[Int]", "type should be ArrayRef[Int]");
 
 =head1 DESCRIPTION
 
-Test::TypeConstraints is for testing type check with Data::Validator like validation.
+Test::TypeConstraints is for testing whether some value is valid as (Moose|Mouse)::Meta::TypeConstraint.
+
+=head1 METHOD
+
+=head2 type_is_a_ok($got, $typename_or_type, $test_name)
+
+    $got is value for checking.
+    $typename_or_type is a Classname or Mouse::Meta::TypeConstraint name or "Mouse::Meta::TypeConstraint" object or "Moose::Meta::TypeConstraint" object.
 
 =head1 AUTHOR
 
@@ -52,7 +59,7 @@ Keiji Yoshimi E<lt>walf443 at gmail dot comE<gt>
 
 =head1 SEE ALSO
 
-+<Data::Validator>, +<Mouse::Util::TypeConstraints>
++<Mouse::Util::TypeConstraints>, +<Moose::Util::TypeConstraints>
 
 =head1 LICENSE
 
