@@ -12,13 +12,22 @@ DESCRIPTION
     (Moose|Mouse)::Meta::TypeConstraint.
 
 METHOD
-  type_isa($got, $typename_or_type, $test_name)
+  type_isa($got, $typename_or_type, $test_name, %options)
         $got is value for checking.
         $typename_or_type is a Classname or Mouse::Meta::TypeConstraint name or "Mouse::Meta::TypeConstraint" object or "Moose::Meta::TypeConstraint::Class" object.
+        %options is Hash. value is followings:
 
-  type_does($got, $rolename_or_role, $test_name)
+   coerce: Bool
+            try coercion when checking value.
+
+  type_does($got, $rolename_or_role, $test_name, %options)
         $got is value for checking.
         $typename_or_type is a Classname or Mouse::Meta::TypeConstraint name or "Mouse::Meta::TypeConstraint" object or "Moose::Meta::TypeConstraint::Role" object.
+
+        %options is Hash. value is followings:
+
+   coerce: Bool
+            try coercion when checking value.
 
 AUTHOR
     Keiji Yoshimi <walf443 at gmail dot com>

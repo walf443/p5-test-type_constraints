@@ -13,7 +13,7 @@ use Data::Dumper;
 our @EXPORT = qw/ type_isa type_does /;
 
 sub type_isa {
-    my ($got, $type, $test_name) = @_;
+    my ($got, $type, $test_name, %options) = @_;
 
     my $tc;
     # duck typing for (Mouse|Moose)::Meta::TypeConstraint
@@ -23,14 +23,14 @@ sub type_isa {
         $tc = Mouse::Util::TypeConstraints::find_or_create_isa_type_constraint($type);
     }
     local $Test::Builder::Level = $Test::Builder::Level + 1;
-    my $ret = ok($tc->check($got), $test_name || ( $tc->name . " types ok" ) )
+    my $ret = ok(check_type($tc, $got, %options), $test_name || ( $tc->name . " types ok" ) )
         or diag(sprintf('type: "%s" expected. but got %s', $tc->name, Dumper($got)));
 
     return $ret;
 }
 
 sub type_does {
-    my ($got, $role, $test_name) = @_;
+    my ($got, $role, $test_name, %options) = @_;
 
     my $tc;
     # duck typing for (Mouse|Moose)::Meta::TypeConstraint
@@ -40,10 +40,22 @@ sub type_does {
         $tc = Mouse::Util::TypeConstraints::find_or_create_does_type_constraint($role);
     }
     local $Test::Builder::Level = $Test::Builder::Level + 1;
-    my $ret = ok($tc->check($got), $test_name || ( $tc->name . " types ok" ) )
+    my $ret = ok(check_type($tc, $got, %options), $test_name || ( $tc->name . " types ok" ) )
         or diag(sprintf('role: "%s" expected. but got %s', $tc->name, Dumper($got)));
 
     return $ret;
+}
+
+sub check_type {
+    my ($tc, $value, %options) = @_;
+
+    return 1 if $tc->check($value);
+    if ( $options{coerce} ) {
+        my $new_val = $tc->coerce($value);
+        return 1 if $tc->check($new_val);
+    }
+
+    return 0;
 }
 
 1;
@@ -65,15 +77,26 @@ Test::TypeConstraints is for testing whether some value is valid as (Moose|Mouse
 
 =head1 METHOD
 
-=head2 type_isa($got, $typename_or_type, $test_name)
+=head2 type_isa($got, $typename_or_type, $test_name, %options)
 
     $got is value for checking.
     $typename_or_type is a Classname or Mouse::Meta::TypeConstraint name or "Mouse::Meta::TypeConstraint" object or "Moose::Meta::TypeConstraint::Class" object.
+    %options is Hash. value is followings:
 
-=head2 type_does($got, $rolename_or_role, $test_name)
+=head3 coerce: Bool
+
+        try coercion when checking value.
+
+=head2 type_does($got, $rolename_or_role, $test_name, %options)
 
     $got is value for checking.
     $typename_or_type is a Classname or Mouse::Meta::TypeConstraint name or "Mouse::Meta::TypeConstraint" object or "Moose::Meta::TypeConstraint::Role" object.
+
+    %options is Hash. value is followings:
+
+=head3 coerce: Bool
+
+        try coercion when checking value.
 
 =head1 AUTHOR
 

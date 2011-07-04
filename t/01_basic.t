@@ -10,7 +10,7 @@ use strict;
 use warnings;
 use Test::TypeConstraints qw(type_isa type_does);
 use Test::More;
-use Mouse::Util::TypeConstraints qw(subtype as where);
+use Mouse::Util::TypeConstraints qw(subtype as where coerce from via );
 use Test::Builder::Tester;
 use IO::Scalar;
 
@@ -27,5 +27,11 @@ type_does($hoge, "Fuga", "role name ok");
 
 my $subtype = subtype 'HogeClass' => as 'Object' => where { $_->isa("Hoge") } ;
 type_isa($hoge, $subtype, "Mouse TypeConstraints object ok");
+
+coerce 'HogeClass'
+    => from 'Str'
+        => via { Hoge->new };
+
+type_isa("hoge", "HogeClass", "coerce Str ok", coerce => 1);
 
 done_testing();
