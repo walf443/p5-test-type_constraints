@@ -7,6 +7,7 @@ use Exporter 'import';
 use Test::More;
 use Test::Builder;
 use Mouse::Util::TypeConstraints ();
+use Scalar::Util ();
 use Data::Dumper;
 
 our @EXPORT = qw/ type_is_a_ok /;
@@ -15,7 +16,8 @@ sub type_is_a_ok {
     my ($got, $type, $test_name) = @_;
 
     my $tc;
-    if ( ref $type ) {
+    # duck typing for (Mouse|Moose)::Meta::TypeConstraints
+    if ( Scalar::Util::blessed($type) && $type->can("check") ) {
         $tc = $type;
     } else {
         $tc = Mouse::Util::TypeConstraints::find_or_create_isa_type_constraint($type);
