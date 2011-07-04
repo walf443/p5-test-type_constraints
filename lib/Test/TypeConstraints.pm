@@ -1,5 +1,4 @@
 package Test::TypeConstraints;
-
 use strict;
 use warnings;
 use 5.008001;
@@ -7,7 +6,7 @@ our $VERSION = '0.01';
 use Exporter 'import';
 use Test::More;
 use Test::Builder;
-use Data::Validator;
+use Mouse::Util::TypeConstraints ();
 use Data::Dumper;
 
 our @EXPORT = qw/ type_is_a_ok /;
@@ -15,20 +14,16 @@ our @EXPORT = qw/ type_is_a_ok /;
 sub type_is_a_ok {
     my ($got, $type, $test_name) = @_;
 
-    my $rule = Data::Validator->new(
-        got => +{
-            isa => $type,
-            coerce => 0,
-        },
-    )->with('NoThrow');
-    my $args = $rule->validate(got => $got);
-    local $Test::Builder::Level = $Test::Builder::Level + 1;
-    my $ret = ok(! $rule->has_errors, $test_name || "should not have type error");
-    if ( ! $ret ) {
-        my $dava_validator_msg = join "\n", map { $_->{message} } @{ $rule->clear_errors };
-        $dava_validator_msg =~ s/with value (.+$)/with value @{[ Dumper($got) ]}/;
-        diag($dava_validator_msg);
+    my $tc;
+    if ( ref $type ) {
+        $tc = $type;
+    } else {
+        $tc = Mouse::Util::TypeConstraints::find_or_create_isa_type_constraint($type);
     }
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+    my $ret = ok($tc->check($got), $test_name || ( $tc->name . " types ok" ) )
+        or diag(sprintf('type: "%s" expected. but got %s', $tc->name, Dumper($got)));
+
     return $ret;
 }
 

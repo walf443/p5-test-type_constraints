@@ -10,10 +10,15 @@ readme_from 'lib/Test/TypeConstraints.pm';
 tests_recursive 't';
 author_tests 'xt';
 
-build_requires 'Test::More';
+build_requires 'Test::More', '0.98';
 build_requires 'Test::LoadAllModules';
 build_requires 'Module::Install::ReadmeFromPod';
-use_test_base;
+
+requires 'Mouse::Util::TypeConstraints';
+requires 'Test::More', '0.98';
+requires 'Data::Dumper';
+requires 'Test::Builder';
+
 auto_include;
 auto_set_repository;
 WriteAll;

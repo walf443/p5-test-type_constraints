@@ -8,7 +8,7 @@ test_out("not ok 1 - fail test case");
 my $expected_err = <<'END_OF_ERR';
 #   Failed test 'fail test case'
 #   at t/02_failcase.t line 20.
-# Invalid value for 'got': Validation failed for 'ArrayRef[Int]' with value $VAR1 = [
+# type: "ArrayRef[Int]" expected. but got $VAR1 = [
 #           1,
 #           2,
 #           'abc'
