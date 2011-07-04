@@ -16,7 +16,7 @@ sub type_is_a_ok {
     my ($got, $type, $test_name) = @_;
 
     my $tc;
-    # duck typing for (Mouse|Moose)::Meta::TypeConstraints
+    # duck typing for (Mouse|Moose)::Meta::TypeConstraint
     if ( Scalar::Util::blessed($type) && $type->can("check") ) {
         $tc = $type;
     } else {
