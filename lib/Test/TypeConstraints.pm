@@ -57,6 +57,12 @@ Test::TypeConstraints is for testing whether some value is valid as (Moose|Mouse
 
 Keiji Yoshimi E<lt>walf443 at gmail dot comE<gt>
 
+=head1 THANKS TO
+
+gfx
+
+tokuhirom
+
 =head1 SEE ALSO
 
 +<Mouse::Util::TypeConstraints>, +<Moose::Util::TypeConstraints>

@@ -19,6 +19,11 @@ METHOD
 AUTHOR
     Keiji Yoshimi <walf443 at gmail dot com>
 
+THANKS TO
+    gfx
+
+    tokuhirom
+
 SEE ALSO
     +<Mouse::Util::TypeConstraints>, +<Moose::Util::TypeConstraints>
 
