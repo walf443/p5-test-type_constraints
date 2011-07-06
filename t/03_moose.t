@@ -1,3 +1,7 @@
+use strict;
+use warnings;
+use Test::Requires qw(Moose::Role Moose::Role Moose::Util::TypeConstraints);
+
 package Fuga;
 use Moose::Role;
 
@@ -10,7 +14,6 @@ package main;
 use strict;
 use warnings;
 use Test::More;
-use Test::Requires qw(Moose::Util::TypeConstraints);
 use Test::TypeConstraints qw(type_isa type_does);
 
 my $hoge = Hoge->new;
