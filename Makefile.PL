@@ -14,6 +14,7 @@ build_requires 'Test::More', '0.98';
 build_requires 'Test::LoadAllModules';
 build_requires 'Test::Requires';
 build_requires 'IO::Scalar';
+build_requires 'Test::Tester';
 build_requires 'Module::Install::ReadmeFromPod';
 
 requires 'Mouse::Util::TypeConstraints';
