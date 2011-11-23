@@ -1,5 +1,8 @@
 Revision history for Perl extension Test::TypeConstraints
 
+0.03    Thu Jul  7 05:25:49 JST 2011
+        - fixed dependency.
+
 0.02    Thu Jul  7 05:25:49 JST 2011
         - fixed dependency.
         - rewrite t/02_failcase.t using Test::Tester.
