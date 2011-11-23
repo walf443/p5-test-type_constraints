@@ -15,7 +15,6 @@ build_requires 'Test::LoadAllModules';
 build_requires 'Test::Requires';
 build_requires 'IO::Scalar';
 build_requires 'Test::Tester';
-build_requires 'Module::Install::ReadmeFromPod';
 
 requires 'Mouse::Util::TypeConstraints';
 requires 'Test::More', '0.98';
@@ -23,6 +22,5 @@ requires 'Data::Dumper';
 requires 'Test::Builder';
 requires 'Scalar::Util';
 
-auto_include;
 auto_set_repository;
 WriteAll;

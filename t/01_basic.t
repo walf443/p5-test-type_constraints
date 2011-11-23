@@ -11,8 +11,6 @@ use warnings;
 use Test::TypeConstraints qw(type_isa type_does);
 use Test::More;
 use Mouse::Util::TypeConstraints qw(subtype as where coerce from via );
-use Test::Builder::Tester;
-use IO::Scalar;
 
 subtest "Mouse TypeConstraints name str ok" => sub {
     subtest "success" => sub {
