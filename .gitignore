@@ -8,4 +8,6 @@ MANIFEST
 Makefile.old
 nytprof.out
 MANIFEST.bak
+MYMETA.json
+MYMETA.yml
 *.sw[po]
