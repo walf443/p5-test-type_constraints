@@ -28,16 +28,21 @@ sub type_does {
     );
 }
 
+sub _make_type_constraint {
+    my($type, $make_constraint) = @_;
+
+    # duck typing for (Mouse|Moose)::Meta::TypeConstraint
+    if ( Scalar::Util::blessed($type) && $type->can("check") ) {
+        return $type;
+    } else {
+        return $make_constraint->($type);
+    }
+}
+
 sub _type_check_ok {
     my ($make_constraint, $got, $type, $test_name, %options) = @_;
 
-    my $tc;
-    # duck typing for (Mouse|Moose)::Meta::TypeConstraint
-    if ( Scalar::Util::blessed($type) && $type->can("check") ) {
-        $tc = $type;
-    } else {
-        $tc = $make_constraint->($type);
-    }
+    my $tc = _make_type_constraint($type, $make_constraint);
     local $Test::Builder::Level = $Test::Builder::Level + 1;
     my $ret = ok(check_type($tc, $got, %options), $test_name || ( $tc->name . " types ok" ) )
         or diag(sprintf('type: "%s" expected. but got %s', $tc->name, Dumper($got)));
