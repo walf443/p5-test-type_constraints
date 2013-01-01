@@ -13,19 +13,27 @@ use Data::Dumper;
 our @EXPORT = qw/ type_isa type_does /;
 
 sub type_isa {
-    local $Test::Builder::Level = $Test::Builder::Level + 1;
-    return _type_check_ok(
-        \&Mouse::Util::TypeConstraints::find_or_create_isa_type_constraint,
-        @_
+    my ($got, $type, @rest) = @_;
+
+    my $tc = _make_type_constraint(
+        $type,
+        \&Mouse::Util::TypeConstraints::find_or_create_isa_type_constraint
     );
+
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+    return _type_constraint_ok( $got, $tc, @rest );
 }
 
 sub type_does {
-    local $Test::Builder::Level = $Test::Builder::Level + 1;
-    return _type_check_ok(
-        \&Mouse::Util::TypeConstraints::find_or_create_does_type_constraint,
-        @_
+    my ($got, $type, @rest) = @_;
+
+    my $tc = _make_type_constraint(
+        $type,
+        \&Mouse::Util::TypeConstraints::find_or_create_does_type_constraint
     );
+
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+    return _type_constraint_ok( $got, $tc, @rest );
 }
 
 sub _make_type_constraint {
@@ -39,10 +47,9 @@ sub _make_type_constraint {
     }
 }
 
-sub _type_check_ok {
-    my ($make_constraint, $got, $type, $test_name, %options) = @_;
+sub _type_constraint_ok {
+    my ($got, $tc, $test_name, %options) = @_;
 
-    my $tc = _make_type_constraint($type, $make_constraint);
     local $Test::Builder::Level = $Test::Builder::Level + 1;
     my $ret = ok(check_type($tc, $got, %options), $test_name || ( $tc->name . " types ok" ) )
         or diag(sprintf('type: "%s" expected. but got %s', $tc->name, Dumper($got)));
