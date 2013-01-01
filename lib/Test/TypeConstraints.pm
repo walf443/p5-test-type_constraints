@@ -10,7 +10,7 @@ use Mouse::Util::TypeConstraints ();
 use Scalar::Util ();
 use Data::Dumper;
 
-our @EXPORT = qw/ type_isa type_does /;
+our @EXPORT = qw/ type_isa type_does type_isnt type_doesnt /;
 
 sub type_isa {
     my ($got, $type, @rest) = @_;
@@ -36,6 +36,30 @@ sub type_does {
     return _type_constraint_ok( $got, $tc, @rest );
 }
 
+sub type_isnt {
+    my ($got, $type, @rest) = @_;
+
+    my $tc = _make_type_constraint(
+        $type,
+        \&Mouse::Util::TypeConstraints::find_or_create_isa_type_constraint
+    );
+
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+    return _type_constraint_not_ok( $got, $tc, @rest );
+}
+
+sub type_doesnt {
+    my ($got, $type, @rest) = @_;
+
+    my $tc = _make_type_constraint(
+        $type,
+        \&Mouse::Util::TypeConstraints::find_or_create_does_type_constraint
+    );
+
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+    return _type_constraint_not_ok( $got, $tc, @rest );
+}
+
 sub _make_type_constraint {
     my($type, $make_constraint) = @_;
 
@@ -53,6 +77,16 @@ sub _type_constraint_ok {
     local $Test::Builder::Level = $Test::Builder::Level + 1;
     my $ret = ok(check_type($tc, $got, %options), $test_name || ( $tc->name . " types ok" ) )
         or diag(sprintf('type: "%s" expected. but got %s', $tc->name, Dumper($got)));
+
+    return $ret;
+}
+
+sub _type_constraint_not_ok {
+    my ($got, $tc, $test_name, %options) = @_;
+
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+    my $ret = ok(!check_type($tc, $got, %options), $test_name || ( $tc->name . " types ok" ) )
+        or diag(sprintf('%s is not supposed to be of type "%s"', $tc->name, Dumper($got)));
 
     return $ret;
 }
@@ -108,6 +142,14 @@ Test::TypeConstraints is for testing whether some value is valid as (Moose|Mouse
 =head3 coerce: Bool
 
         try coercion when checking value.
+
+=head2 type_isnt($got, $typename_or_type, $test_name, %options)
+
+=head2 type_doesnt($got, $rolename_or_role, $test_name, %options)
+
+The opposite of C<type_isa> and C<type_doesnt> respectively and takes
+the same arguments and options.  Checks that $got is I<not> of the
+given type or role.
 
 =head1 AUTHOR
 
