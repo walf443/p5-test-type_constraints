@@ -13,35 +13,34 @@ use Data::Dumper;
 our @EXPORT = qw/ type_isa type_does /;
 
 sub type_isa {
-    my ($got, $type, $test_name, %options) = @_;
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+    return _type_check_ok(
+        \&Mouse::Util::TypeConstraints::find_or_create_isa_type_constraint,
+        @_
+    );
+}
+
+sub type_does {
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+    return _type_check_ok(
+        \&Mouse::Util::TypeConstraints::find_or_create_does_type_constraint,
+        @_
+    );
+}
+
+sub _type_check_ok {
+    my ($make_constraint, $got, $type, $test_name, %options) = @_;
 
     my $tc;
     # duck typing for (Mouse|Moose)::Meta::TypeConstraint
     if ( Scalar::Util::blessed($type) && $type->can("check") ) {
         $tc = $type;
     } else {
-        $tc = Mouse::Util::TypeConstraints::find_or_create_isa_type_constraint($type);
+        $tc = $make_constraint->($type);
     }
     local $Test::Builder::Level = $Test::Builder::Level + 1;
     my $ret = ok(check_type($tc, $got, %options), $test_name || ( $tc->name . " types ok" ) )
         or diag(sprintf('type: "%s" expected. but got %s', $tc->name, Dumper($got)));
-
-    return $ret;
-}
-
-sub type_does {
-    my ($got, $role, $test_name, %options) = @_;
-
-    my $tc;
-    # duck typing for (Mouse|Moose)::Meta::TypeConstraint
-    if ( Scalar::Util::blessed($role) && $role->can("check") ) {
-        $tc = $role;
-    } else {
-        $tc = Mouse::Util::TypeConstraints::find_or_create_does_type_constraint($role);
-    }
-    local $Test::Builder::Level = $Test::Builder::Level + 1;
-    my $ret = ok(check_type($tc, $got, %options), $test_name || ( $tc->name . " types ok" ) )
-        or diag(sprintf('role: "%s" expected. but got %s', $tc->name, Dumper($got)));
 
     return $ret;
 }
