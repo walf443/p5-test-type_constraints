@@ -50,8 +50,9 @@ sub check_type {
     my ($tc, $value, %options) = @_;
 
     return 1 if $tc->check($value);
-    if ( $options{coerce} ) {
+    if ( my $coerce_check = $options{coerce} ) {
         my $new_val = $tc->coerce($value);
+        $coerce_check->($new_val) if ref $coerce_check;
         return 1 if $tc->check($new_val);
     }
 
@@ -83,20 +84,27 @@ Test::TypeConstraints is for testing whether some value is valid as (Moose|Mouse
     $typename_or_type is a Classname or Mouse::Meta::TypeConstraint name or "Mouse::Meta::TypeConstraint" object or "Moose::Meta::TypeConstraint::Class" object.
     %options is Hash. value is followings:
 
-=head3 coerce: Bool
+=head3 coerce: Bool or CodeRef
 
-        try coercion when checking value.
+If true, it will try coercion when checking a value.
+
+If a CodeRef is given, it will be run and passed in the coerced value
+for additional testing.
+
+    type_isa $value, "Some::Class", "coerce to Some::Class", coerce => sub {
+        isa_ok $_[0], "Some::Class";
+        is $_[0]->value, $value;
+    };
 
 =head2 type_does($got, $rolename_or_role, $test_name, %options)
 
     $got is value for checking.
     $typename_or_type is a Classname or Mouse::Meta::TypeConstraint name or "Mouse::Meta::TypeConstraint" object or "Moose::Meta::TypeConstraint::Role" object.
-
     %options is Hash. value is followings:
 
-=head3 coerce: Bool
+=head3 coerce: Bool or CodeRef
 
-        try coercion when checking value.
+Same as type_isa's coerce option.
 
 =head1 AUTHOR
 
