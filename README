@@ -17,25 +17,38 @@ METHOD
         $typename_or_type is a Classname or Mouse::Meta::TypeConstraint name or "Mouse::Meta::TypeConstraint" object or "Moose::Meta::TypeConstraint::Class" object.
         %options is Hash. value is followings:
 
-   coerce: Bool
-            try coercion when checking value.
+   coerce: Bool or CodeRef
+    If true, it will try coercion when checking a value.
+
+    If a CodeRef is given, it will be run and passed in the coerced value
+    for additional testing.
+
+        type_isa $value, "Some::Class", "coerce to Some::Class", coerce => sub {
+            isa_ok $_[0], "Some::Class";
+            is $_[0]->value, $value;
+        };
 
   type_does($got, $rolename_or_role, $test_name, %options)
         $got is value for checking.
         $typename_or_type is a Classname or Mouse::Meta::TypeConstraint name or "Mouse::Meta::TypeConstraint" object or "Moose::Meta::TypeConstraint::Role" object.
-
         %options is Hash. value is followings:
 
-   coerce: Bool
-            try coercion when checking value.
+   coerce: Bool or CodeRef
+    Same as type_isa's coerce option.
+
+  type_isnt($got, $typename_or_type, $test_name, %options)
+  type_doesnt($got, $rolename_or_role, $test_name, %options)
+    The opposite of "type_isa" and "type_doesnt" respectively and takes the
+    same arguments and options. Checks that $got is *not* of the given type
+    or role.
 
 AUTHOR
     Keiji Yoshimi <walf443 at gmail dot com>
 
 THANKS TO
-    gfx
-
-    tokuhirom
+     schwern
+     gfx
+     tokuhirom
 
 SEE ALSO
     +<Mouse::Util::TypeConstraints>, +<Moose::Util::TypeConstraints>

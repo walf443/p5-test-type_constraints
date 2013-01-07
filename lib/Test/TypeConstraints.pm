@@ -165,9 +165,18 @@ Keiji Yoshimi E<lt>walf443 at gmail dot comE<gt>
 
 =head1 THANKS TO
 
+=over 
+
+=item
+schwern
+
+=item
 gfx
 
+=item
 tokuhirom
+
+=back
 
 =head1 SEE ALSO
 
