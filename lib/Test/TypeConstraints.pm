@@ -125,13 +125,17 @@ Test::TypeConstraints is for testing whether some value is valid as (Moose|Mouse
 
 =head2 type_isa($got, $typename_or_type, $test_name, %options)
 
-    $got is value for checking.
-    $typename_or_type is a Classname or Mouse::Meta::TypeConstraint name or "Mouse::Meta::TypeConstraint" object or "Moose::Meta::TypeConstraint::Class" object.
-    %options is Hash. value is followings:
+$got is the value to be type checked.
+
+$typename_or_type is a class, Mouse::Meta::TypeConstraint name,
+Mouse::Meta::TypeConstraint object or
+Moose::Meta::TypeConstraint::Class object.
+
+%options control optional behaviors.  Its keys can be the following...
 
 =head3 coerce: Bool or CodeRef
 
-If true, it will try coercion when checking a value.
+If true, it will use coercion when checking a value.
 
 If a CodeRef is given, it will be run and passed in the coerced value
 for additional testing.
@@ -143,21 +147,18 @@ for additional testing.
 
 =head2 type_does($got, $rolename_or_role, $test_name, %options)
 
-    $got is value for checking.
-    $typename_or_type is a Classname or Mouse::Meta::TypeConstraint name or "Mouse::Meta::TypeConstraint" object or "Moose::Meta::TypeConstraint::Role" object.
-    %options is Hash. value is followings:
+Works just like C<type_isa>, but for roles instead of classes and
+types.  $got must I<do> the given $rolename_or_role.
 
-=head3 coerce: Bool or CodeRef
-
-Same as type_isa's coerce option.
 
 =head2 type_isnt($got, $typename_or_type, $test_name, %options)
 
 =head2 type_doesnt($got, $rolename_or_role, $test_name, %options)
 
-The opposite of C<type_isa> and C<type_doesnt> respectively and takes
-the same arguments and options.  Checks that $got is I<not> of the
-given type or role.
+The opposites of C<type_isa> and C<type_does>.  They take the same
+arguments and options.
+
+Checks that $got is I<not> of the given type or role.
 
 =head1 AUTHOR
 
@@ -180,7 +181,7 @@ tokuhirom
 
 =head1 SEE ALSO
 
-+<Mouse::Util::TypeConstraints>, +<Moose::Util::TypeConstraints>
+L<Mouse::Util::TypeConstraints>, L<Moose::Util::TypeConstraints>
 
 =head1 LICENSE
 
