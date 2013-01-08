@@ -121,23 +121,29 @@ Test::TypeConstraints - testing whether some value is valid as (Moose|Mouse)::Me
 
 Test::TypeConstraints is for testing whether some value is valid as (Moose|Mouse)::Meta::TypeConstraint.
 
-=head1 METHOD
+=head1 METHODS
 
-=head2 type_isa($got, $typename_or_type, $test_name, %options)
+=head2 type_isa
 
-$got is the value to be type checked.
+    type_isa($value, $type);
+    type_isa($value, $type, $test_name);
+    type_isa($value, $type, $test_name, %options);
 
-$typename_or_type is a class, Mouse::Meta::TypeConstraint name,
-Mouse::Meta::TypeConstraint object or
-Moose::Meta::TypeConstraint::Class object.
+Performs a type check against the $value using the $type.
+
+$type can be a class name, a Moose/Mouse type name,
+Moose/Mouse::Meta::TypeConstraint object or
+Moose/Mouse::Meta::TypeConstraint::Class object.
+
+$test_name is the description of the test.  If not given, one will be provided.
 
 %options control optional behaviors.  Its keys can be the following...
 
-=head3 coerce: Bool or CodeRef
+=head3 coerce
 
-If true, it will use coercion when checking a value.
+If true, coercion will be used when performing the type check.
 
-If a CodeRef is given, it will be run and passed in the coerced value
+If a code ref is given, it will be run and passed in the coerced value
 for additional testing.
 
     type_isa $value, "Some::Class", "coerce to Some::Class", coerce => sub {
@@ -145,20 +151,25 @@ for additional testing.
         is $_[0]->value, $value;
     };
 
-=head2 type_does($got, $rolename_or_role, $test_name, %options)
+=head2 type_does
 
-Works just like C<type_isa>, but for roles instead of classes and
-types.  $got must I<do> the given $rolename_or_role.
+    type_does($value, $role);
+    type_does($value, $role, $test_name);
+    type_does($value, $role, $test_name, %options);
 
+Tests that the $value does the $role.
 
-=head2 type_isnt($got, $typename_or_type, $test_name, %options)
+Works like C<type_isa>, but for roles instead of classes and types.
+The $value must have consumed the given $role.
 
-=head2 type_doesnt($got, $rolename_or_role, $test_name, %options)
+=head2 type_isnt
+
+=head2 type_doesnt
 
 The opposites of C<type_isa> and C<type_does>.  They take the same
 arguments and options.
 
-Checks that $got is I<not> of the given type or role.
+Checks that the value is I<not> of the given type or role.
 
 =head1 AUTHOR
 
