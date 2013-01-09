@@ -1,6 +1,9 @@
 Revision history for Perl extension Test::TypeConstraints
 
-0.05    Mon Jan 21 10:13:00 JST 2013
+0.06    Mon Jan 09 10:27:00 JST 2013
+        - [MISC] update docs. (thanks schwern)
+
+0.05    Mon Jan 08 10:13:00 JST 2013
         - [FEATURE] added new api: type_isnt, type_doesnt. (thanks schwern)
         - [MOD] option can take CodeRef for testing coercion results. (thanks schwern)
 
