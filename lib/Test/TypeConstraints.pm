@@ -121,19 +121,29 @@ Test::TypeConstraints - testing whether some value is valid as (Moose|Mouse)::Me
 
 Test::TypeConstraints is for testing whether some value is valid as (Moose|Mouse)::Meta::TypeConstraint.
 
-=head1 METHOD
+=head1 METHODS
 
-=head2 type_isa($got, $typename_or_type, $test_name, %options)
+=head2 type_isa
 
-    $got is value for checking.
-    $typename_or_type is a Classname or Mouse::Meta::TypeConstraint name or "Mouse::Meta::TypeConstraint" object or "Moose::Meta::TypeConstraint::Class" object.
-    %options is Hash. value is followings:
+    type_isa($value, $type);
+    type_isa($value, $type, $test_name);
+    type_isa($value, $type, $test_name, %options);
 
-=head3 coerce: Bool or CodeRef
+Performs a type check against the $value using the $type.
 
-If true, it will try coercion when checking a value.
+$type can be a class name, a Moose/Mouse type name,
+Moose/Mouse::Meta::TypeConstraint object or
+Moose/Mouse::Meta::TypeConstraint::Class object.
 
-If a CodeRef is given, it will be run and passed in the coerced value
+$test_name is the description of the test.  If not given, one will be provided.
+
+%options control optional behaviors.  Its keys can be the following...
+
+=head3 coerce
+
+If true, coercion will be used when performing the type check.
+
+If a code ref is given, it will be run and passed in the coerced value
 for additional testing.
 
     type_isa $value, "Some::Class", "coerce to Some::Class", coerce => sub {
@@ -141,23 +151,25 @@ for additional testing.
         is $_[0]->value, $value;
     };
 
-=head2 type_does($got, $rolename_or_role, $test_name, %options)
+=head2 type_does
 
-    $got is value for checking.
-    $typename_or_type is a Classname or Mouse::Meta::TypeConstraint name or "Mouse::Meta::TypeConstraint" object or "Moose::Meta::TypeConstraint::Role" object.
-    %options is Hash. value is followings:
+    type_does($value, $role);
+    type_does($value, $role, $test_name);
+    type_does($value, $role, $test_name, %options);
 
-=head3 coerce: Bool or CodeRef
+Tests that the $value does the $role.
 
-Same as type_isa's coerce option.
+Works like C<type_isa>, but for roles instead of classes and types.
+The $value must have consumed the given $role.
 
-=head2 type_isnt($got, $typename_or_type, $test_name, %options)
+=head2 type_isnt
 
-=head2 type_doesnt($got, $rolename_or_role, $test_name, %options)
+=head2 type_doesnt
 
-The opposite of C<type_isa> and C<type_doesnt> respectively and takes
-the same arguments and options.  Checks that $got is I<not> of the
-given type or role.
+The opposites of C<type_isa> and C<type_does>.  They take the same
+arguments and options.
+
+Checks that the value is I<not> of the given type or role.
 
 =head1 AUTHOR
 
@@ -180,7 +192,7 @@ tokuhirom
 
 =head1 SEE ALSO
 
-+<Mouse::Util::TypeConstraints>, +<Moose::Util::TypeConstraints>
+L<Mouse::Util::TypeConstraints>, L<Moose::Util::TypeConstraints>
 
 =head1 LICENSE
 
