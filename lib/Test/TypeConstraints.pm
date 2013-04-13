@@ -2,7 +2,7 @@ package Test::TypeConstraints;
 use strict;
 use warnings;
 use 5.008001;
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 use Exporter 'import';
 use Test::More;
 use Test::Builder;
