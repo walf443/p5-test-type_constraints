@@ -1,5 +1,7 @@
 Revision history for Perl extension Test::TypeConstraints
 
+{{$NEXT}}
+
 0.06    Mon Jan 09 10:27:00 JST 2013
         - [MISC] update docs. (thanks schwern)
 

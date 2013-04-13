@@ -11,3 +11,9 @@ MANIFEST.bak
 MYMETA.json
 MYMETA.yml
 *.sw[po]
+/Test-TypeConstraints-*
+/.build
+/_build_params
+/Build
+!Build/
+!META.json
